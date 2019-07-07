@@ -22,7 +22,7 @@ def load_data(database_filepath):
     try:
         df = pd.read_sql_table('SELECT * FROM DisasterResponse', engine)
     except:
-        df = pd.read_csv("DisasterResponse.csv")
+        df = pd.read_csv("models/DisasterResponse.csv")
     
     X = df["message"]
     y = df.iloc[:, 4:]

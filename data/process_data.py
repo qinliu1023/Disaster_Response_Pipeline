@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
 
+import os
 
 def load_data(messages_filepath, categories_filepath):
     """
@@ -46,9 +47,9 @@ def save_data(df, database_filename):
     """
     Save dataframe to database
     """  
-    engine = create_engine('sqlite:///DisasterResponse.db')
-    df.to_sql(database_filename, engine, index=False)
-
+    engine = create_engine('sqlite:///'+database_filename)
+    df.to_sql(database_filename, engine, index=False, if_exists = "replace" )
+    df.to_csv('models/DisasterResponse.csv', index=False)
 
 def main():
     if len(sys.argv) == 4:

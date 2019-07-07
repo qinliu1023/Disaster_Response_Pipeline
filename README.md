@@ -1,5 +1,4 @@
-# Disaster_Response_Pipeline
-
+# Disaster Response Pipeline Project
 
 ### Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
