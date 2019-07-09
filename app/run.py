@@ -32,7 +32,7 @@ engine = create_engine('sqlite:///../data/DisasterResponse.db')
 try:
     df = pd.read_sql_table('DisasterResponse', engine)
 except:
-    df = pd.read_csv("../models/DisasterResponse.csv")    
+    df = pd.read_csv("../models/DisasterResponse.csv", dtype = {'message': str, 'original': str, 'genre': str})
 
 # load model
 model = joblib.load("../models/classifier.pkl")
@@ -48,9 +48,15 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
+    ## data for new graph: Top 3 Categories
+    category_counts = df.iloc[:,4:].sum().sort_values(ascending=False).iloc[:3]
+    category_names = list(category_count.index)
+    
+    
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
+        # Graph Example
         {
             'data': [
                 Bar(
@@ -68,7 +74,26 @@ def index():
                     'title': "Genre"
                 }
             }
-        }
+        },
+        # Graph New: Top 3 Categories
+        { 
+            'data': [
+                Bar(
+                    x=category_names,
+                    y=category_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Category',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category"
+                }
+            }            
+        }    
     ]
     
     # encode plotly graphs in JSON
